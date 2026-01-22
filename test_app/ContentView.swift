@@ -8,24 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var game = MasterMind()
     var body: some View {
         VStack{
-            pegs(colors:[.red, .green, .yellow, .blue])
-            pegs(colors:[.red, .green, .red, .blue])
-            pegs(colors:[.red, .blue, .yellow, .blue])
+            view(for:game.masterCode)
+            view(for: game.guess)
+//            pegs(colors:game.attempts[0].pegs)
             
         }.padding()
         
     }
     
-    func pegs(colors: Array<Color>) -> some View {
+    func view(for code: Code) -> some View {
         HStack {
             ForEach(
-                colors.indices,
+                code.pegs.indices,
                 id: \.self){
                     index in RoundedRectangle(cornerRadius: 10)
                         .aspectRatio(1, contentMode: .fit)
-                        .foregroundStyle(colors[index])
+                        .foregroundStyle(code.pegs[index])
+                        .onTapGesture {
+                            if code.kind == .guess{
+                                game.changePegchoice(at: index)
+                            }
+                        }
                 }
             
             MatchMakers(match: [.exact, .inexact, .inexact, .noMatch])
