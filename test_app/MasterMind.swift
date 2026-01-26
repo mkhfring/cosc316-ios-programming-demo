@@ -14,6 +14,12 @@ struct MasterMind {
     var attempts: [Code] = [Code]()
     let pegChoices: [Peg] = [.red, .yellow, .green, .blue]
     
+    mutating func recordAttempt(){
+        var attempt = guess
+        attempt.kind = .attempt
+        attempts.append(attempt)
+    }
+    
     mutating func changePegchoice(at index: Int){
         let currentPeg = guess.pegs[index]
         if let currentPegIndexInChoices = pegChoices.firstIndex(of: currentPeg){
@@ -34,6 +40,29 @@ struct Code{
         case master
         case guess
         case attempt
+    }
+    func match(against otherCode: Code) -> [Match] {
+        var results: [Match] = Array(repeating: .noMatch, count: pegs.count)
+        var pegsToMatch = otherCode.pegs
+
+        for index in pegs.indices.reversed() {
+            if pegsToMatch.count > index,
+               pegsToMatch[index] == pegs[index] {
+                results[index] = .exact
+                pegsToMatch.remove(at: index)
+            }
+        }
+
+        for index in pegs.indices {
+            if results[index] != .exact {
+                if let matchIndex = pegsToMatch.firstIndex(of: pegs[index]) {
+                    results[index] = .inexact
+                    pegsToMatch.remove(at: matchIndex)
+                }
+            }
+        }
+
+        return results
     }
     
 }

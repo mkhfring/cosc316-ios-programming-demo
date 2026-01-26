@@ -12,10 +12,23 @@ struct ContentView: View {
     var body: some View {
         VStack{
             view(for:game.masterCode)
-            view(for: game.guess)
-//            pegs(colors:game.attempts[0].pegs)
+            ScrollView{
+                view(for: game.guess)
+                //            pegs(colors:game.attempts[0].pegs)
+                ForEach(
+                    game.attempts.indices.reversed(),
+                    id: \.self
+                ){
+                    index in view(for: game.attempts[index])
+                }
+            }
             
         }.padding()
+        Button("Guess"){
+            withAnimation{
+                game.recordAttempt()
+            }
+        }
         
     }
     
@@ -34,7 +47,7 @@ struct ContentView: View {
                         }
                 }
             
-            MatchMakers(match: [.exact, .inexact, .inexact, .noMatch])
+            MatchMakers(match: code.match(against: MasterMind().masterCode))
 
         }
     }
