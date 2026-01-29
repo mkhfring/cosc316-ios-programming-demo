@@ -24,12 +24,18 @@ struct ContentView: View {
             }
             
         }.padding()
+        
+        
+    }
+    
+    var guessButton: some View {
         Button("Guess"){
             withAnimation{
                 game.recordAttempt()
             }
         }
-        
+        .font(.system(size:80))
+        .minimumScaleFactor(0.1)
     }
     
     func view(for code: Code) -> some View {
@@ -48,6 +54,12 @@ struct ContentView: View {
                 }
             
             MatchMakers(match: code.matches)
+                .overlay{
+                    if code.kind == .guess{
+                        guessButton
+                    }
+                    
+                }
 
         }
     }
