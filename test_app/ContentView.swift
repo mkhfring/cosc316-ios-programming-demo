@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var game = MasterMind()
+    @State var game = MasterMindModel()
     var body: some View {
         VStack{
             view(for:game.masterCode)
@@ -47,7 +47,7 @@ struct ContentView: View {
                         }
                 }
             
-            MatchMakers(match: code.match(against: MasterMind().masterCode))
+            MatchMakers(match: code.matches)
 
         }
     }

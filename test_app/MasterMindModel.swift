@@ -8,7 +8,7 @@ import SwiftUI
 
 typealias Peg = Color
 
-struct MasterMind {
+struct MasterMindModel {
     var masterCode: Code = Code(kind: .master)
     var guess: Code = Code(kind:.guess)
     var attempts: [Code] = [Code]()
@@ -16,7 +16,7 @@ struct MasterMind {
     
     mutating func recordAttempt(){
         var attempt = guess
-        attempt.kind = .attempt
+        attempt.kind = .attempt(attempt.match(against: masterCode))
         attempts.append(attempt)
     }
     
@@ -36,11 +36,20 @@ struct Code{
     var kind: Kind
     var pegs:[Peg] = [.red, .red, .yellow, .blue]
     
-    enum Kind{
+    enum Kind : Equatable{
         case master
         case guess
-        case attempt
+        case attempt([Match])
     }
+    
+    var matches: [Match] {
+        switch kind {
+        case .attempt(let matches) : return matches
+        case .master, .guess: return []
+        }
+    }
+    
+    
     func match(against otherCode: Code) -> [Match] {
         var results: [Match] = Array(repeating: .noMatch, count: pegs.count)
         var pegsToMatch = otherCode.pegs
