@@ -44,6 +44,13 @@ struct ContentView: View {
                 code.pegs.indices,
                 id: \.self){
                     index in RoundedRectangle(cornerRadius: 10)
+                        .overlay{
+                            if code.pegs[index] == Code.missing{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.black)
+                            }
+                            
+                        }
                         .contentShape(Rectangle())
                         .aspectRatio(1, contentMode: .fit)
                     
