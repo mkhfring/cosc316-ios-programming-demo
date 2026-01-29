@@ -14,6 +14,10 @@ struct MasterMindModel {
     var attempts: [Code] = [Code]()
     let pegChoices: [Peg] = [.red, .yellow, .green, .blue]
     
+    init(){
+        masterCode.randomize(from: pegChoices)
+    }
+    
     mutating func recordAttempt(){
         var attempt = guess
         attempt.kind = .attempt(attempt.match(against: masterCode))
@@ -26,7 +30,7 @@ struct MasterMindModel {
             guess.pegs[index] = pegChoices[(currentPegIndexInChoices + 1) % pegChoices.count]
         }
         else {
-            guess.pegs[index] = pegChoices.first ?? .clear
+            guess.pegs[index] = pegChoices.first ?? Code.missing
         }
     }
     
@@ -34,12 +38,19 @@ struct MasterMindModel {
 
 struct Code{
     var kind: Kind
-    var pegs:[Peg] = [.red, .red, .yellow, .blue]
+    var pegs:[Peg] = Array(repeating:Code.missing, count: 4)
+    static let missing: Peg = .clear
     
     enum Kind : Equatable{
         case master
         case guess
         case attempt([Match])
+    }
+    
+    mutating func randomize(from pegChoices:[Peg]){
+        for index in pegs.indices{
+            pegs[index] = pegChoices.randomElement() ?? Code.missing
+        }
     }
     
     var matches: [Match] {
