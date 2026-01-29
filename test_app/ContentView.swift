@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var game = MasterMindModel()
+    @State var game = MasterMindModel(pegChoices: [.brown, .yellow, .orange, .black])
     var body: some View {
         VStack{
             view(for:game.masterCode)

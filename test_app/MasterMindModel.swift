@@ -12,9 +12,10 @@ struct MasterMindModel {
     var masterCode: Code = Code(kind: .master)
     var guess: Code = Code(kind:.guess)
     var attempts: [Code] = [Code]()
-    let pegChoices: [Peg] = [.red, .yellow, .green, .blue]
+    let pegChoices: [Peg] 
     
-    init(){
+    init(pegChoices: [Peg] = [.red, .green, .blue, .yellow]){
+        self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
     }
     
