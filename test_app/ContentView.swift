@@ -43,18 +43,8 @@ struct ContentView: View {
             ForEach(
                 code.pegs.indices,
                 id: \.self){
-                    index in RoundedRectangle(cornerRadius: 10)
-                        .overlay{
-                            if code.pegs[index] == Code.missing{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.black)
-                            }
-                            
-                        }
-                        .contentShape(Rectangle())
-                        .aspectRatio(1, contentMode: .fit)
-                    
-                        .foregroundStyle(code.pegs[index])
+                    index in
+                    PegView(peg: code.pegs[index])
                         .onTapGesture {
                             if code.kind == .guess{
                                 game.changePegchoice(at: index)
