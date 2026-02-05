@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var game = MasterMindModel(pegChoices: [.brown, .yellow, .orange, .black])
+    @State private var game = MasterMindModel(pegChoices: [.brown, .yellow, .orange, .black])
+    
+    @State private var selection:Int = 0
+    
     var body: some View {
         VStack{
             view(for:game.masterCode)
@@ -22,10 +25,23 @@ struct ContentView: View {
                     index in view(for: game.attempts[index])
                 }
             }
+            pegChooser
             
         }.padding()
         
         
+    }
+    var pegChooser: some View{
+        HStack{
+            ForEach(game.pegChoices, id:\.self){ peg in
+                Button{
+                    game.setGuessPeg(peg, at:selection)
+                } label:{
+                    PegView(peg:peg)
+                }
+                
+            }
+        }
     }
     
     var guessButton: some View {
@@ -47,7 +63,7 @@ struct ContentView: View {
                     PegView(peg: code.pegs[index])
                         .onTapGesture {
                             if code.kind == .guess{
-                                game.changePegchoice(at: index)
+                                selection = index
                             }
                         }
                 }

@@ -19,6 +19,11 @@ struct MasterMindModel {
         masterCode.randomize(from: pegChoices)
     }
     
+    mutating func setGuessPeg(_ peg: Peg, at index: Int){
+        guard guess.pegs.indices.contains(index) else {return}
+        guess.pegs[index] = peg
+    }
+    
     mutating func recordAttempt(){
         var attempt = guess
         attempt.kind = .attempt(attempt.match(against: masterCode))
