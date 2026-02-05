@@ -61,6 +61,12 @@ struct ContentView: View {
                 id: \.self){
                     index in
                     PegView(peg: code.pegs[index])
+                        .background{
+                            if selection == index, code.kind == .guess{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundStyle(Color.gray(0.9))
+                            }
+                        }
                         .onTapGesture {
                             if code.kind == .guess{
                                 selection = index
@@ -80,7 +86,11 @@ struct ContentView: View {
     }
 }
 
-
+extension Color {
+    static func gray(_ brightness: CGFloat) -> Color {
+        return Color(hue: 148/360, saturation: 0, brightness: brightness)
+    }
+}
 
 #Preview {
     ContentView()
