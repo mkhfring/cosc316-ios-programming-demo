@@ -25,25 +25,14 @@ struct ContentView: View {
                     index in view(for: game.attempts[index])
                 }
             }
-            pegChooser
+            PegChooser(choices: game.pegChoices, onChoose: {peg in game.setGuessPeg(peg, at:selection)
+                selection = (selection + 1) % game.masterCode.pegs.count})
             
         }.padding()
         
         
     }
-    var pegChooser: some View{
-        HStack{
-            ForEach(game.pegChoices, id:\.self){ peg in
-                Button{
-                    game.setGuessPeg(peg, at:selection)
-                    selection = (selection + 1) % game.masterCode.pegs.count
-                } label:{
-                    PegView(peg:peg)
-                }
-                
-            }
-        }
-    }
+    
     
     var guessButton: some View {
         Button("Guess"){
