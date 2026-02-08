@@ -55,7 +55,7 @@ struct ContentView: View {
     }
     
     func view(for code: Code) -> some View {
-        HStack {
+        return HStack {
             ForEach(
                 code.pegs.indices,
                 id: \.self){
@@ -63,10 +63,10 @@ struct ContentView: View {
                     PegView(peg: code.pegs[index])
                         .background{
                             if selection == index, code.kind == .guess{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundStyle(Color.gray(0.9))
+                                RoundedRectangle(cornerRadius: Selection.cornerRadius)
+                                    .foregroundStyle(Selection.pegColor)
                             }
-                        }
+                        }.padding(Selection.border)
                         .onTapGesture {
                             if code.kind == .guess{
                                 selection = index
@@ -81,10 +81,18 @@ struct ContentView: View {
                     }
                     
                 }
-
         }
+        
     }
+    struct Selection{
+        static let border: CGFloat = 5
+        static let cornerRadius: CGFloat = 10
+        static let pegColor: Color = .gray(0.9)
+    }
+
 }
+
+
 
 extension Color {
     static func gray(_ brightness: CGFloat) -> Color {
