@@ -36,6 +36,7 @@ struct ContentView: View {
             ForEach(game.pegChoices, id:\.self){ peg in
                 Button{
                     game.setGuessPeg(peg, at:selection)
+                    selection = (selection + 1) % game.masterCode.pegs.count
                 } label:{
                     PegView(peg:peg)
                 }
@@ -56,23 +57,7 @@ struct ContentView: View {
     
     func view(for code: Code) -> some View {
         return HStack {
-            ForEach(
-                code.pegs.indices,
-                id: \.self){
-                    index in
-                    PegView(peg: code.pegs[index])
-                        .background{
-                            if selection == index, code.kind == .guess{
-                                RoundedRectangle(cornerRadius: Selection.cornerRadius)
-                                    .foregroundStyle(Selection.pegColor)
-                            }
-                        }.padding(Selection.border)
-                        .onTapGesture {
-                            if code.kind == .guess{
-                                selection = index
-                            }
-                        }
-                }
+            CodeView(code: code, selection: $selection)
             
             MatchMakers(match: code.matches)
                 .overlay{
@@ -84,11 +69,7 @@ struct ContentView: View {
         }
         
     }
-    struct Selection{
-        static let border: CGFloat = 5
-        static let cornerRadius: CGFloat = 10
-        static let pegColor: Color = .gray(0.9)
-    }
+    
 
 }
 

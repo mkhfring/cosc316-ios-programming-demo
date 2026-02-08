@@ -28,6 +28,7 @@ struct MasterMindModel {
         var attempt = guess
         attempt.kind = .attempt(attempt.match(against: masterCode))
         attempts.append(attempt)
+        guess.pegs = Array(repeating: Peg.clear, count: 4)
     }
     
     mutating func changePegchoice(at index: Int){
