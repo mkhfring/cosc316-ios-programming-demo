@@ -18,7 +18,7 @@ struct CodeView: View {
                 PegView(peg: code.pegs[index])
                     .background{
                         if selection == index, code.kind == .guess{
-                            RoundedRectangle(cornerRadius: Selection.cornerRadius)
+                            Selection.shape
                                 .foregroundStyle(Selection.pegColor)
                         }
                     }.padding(Selection.border)
@@ -33,6 +33,7 @@ struct CodeView: View {
         static let border: CGFloat = 5
         static let cornerRadius: CGFloat = 10
         static let pegColor: Color = .gray(0.9)
+        static let shape = RoundedRectangle(cornerRadius: cornerRadius)
     }
 }
 
