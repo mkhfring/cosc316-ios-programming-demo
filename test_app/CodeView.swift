@@ -10,6 +10,8 @@ import SwiftUI
 struct CodeView: View {
     let code:Code
     @Binding var selection : Int
+    
+    
     var body: some View {
         ForEach(
             code.pegs.indices,
@@ -22,6 +24,11 @@ struct CodeView: View {
                                 .foregroundStyle(Selection.pegColor)
                         }
                     }.padding(Selection.border)
+                    .overlay{
+                        Selection
+                            .shape
+                            .foregroundStyle(code.isHidden ? Color.gray: Color.clear)
+                    }
                     .onTapGesture {
                         if code.kind == .guess{
                             selection = index

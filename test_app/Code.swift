@@ -14,9 +14,16 @@ struct Code{
     static let missing: Peg = .clear
     
     enum Kind : Equatable{
-        case master
+        case master(isHidden: Bool)
         case guess
         case attempt([Match])
+    }
+    
+    var isHidden:Bool{
+        switch kind{
+        case .master(let hidden): return hidden
+        default: return false
+        }
     }
     
     mutating func randomize(from pegChoices:[Peg]){

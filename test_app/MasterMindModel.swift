@@ -9,7 +9,7 @@ import SwiftUI
 typealias Peg = Color
 
 struct MasterMindModel {
-    var masterCode: Code = Code(kind: .master)
+    var masterCode: Code = Code(kind: .master(isHidden: true))
     var guess: Code = Code(kind:.guess)
     var attempts: [Code] = [Code]()
     let pegChoices: [Peg] 
@@ -17,6 +17,7 @@ struct MasterMindModel {
     init(pegChoices: [Peg] = [.red, .green, .blue, .yellow]){
         self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
+        print(masterCode)
     }
     
     mutating func setGuessPeg(_ peg: Peg, at index: Int){
@@ -24,11 +25,19 @@ struct MasterMindModel {
         guess.pegs[index] = peg
     }
     
+    var isGameOver: Bool{
+        attempts.last?.pegs == masterCode.pegs
+    }
+    
     mutating func recordAttempt(){
         var attempt = guess
         attempt.kind = .attempt(attempt.match(against: masterCode))
         attempts.append(attempt)
         guess.pegs = Array(repeating: Peg.clear, count: 4)
+        if isGameOver {
+            masterCode.kind = .master(isHidden: false)
+        }
+        
     }
     
     mutating func changePegchoice(at index: Int){
