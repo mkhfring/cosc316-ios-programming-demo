@@ -28,7 +28,12 @@ struct CodeView: View {
                         Selection
                             .shape
                             .foregroundStyle(code.isHidden ? Color.gray: Color.clear)
-                            .animation(nil, value: code.isHidden)
+                            .transaction{
+                                transaction in
+                                if code.isHidden{
+                                    transaction.animation = nil
+                                }
+                            }
                     }
                     .onTapGesture {
                         if code.kind == .guess{
