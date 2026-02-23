@@ -15,8 +15,10 @@ struct ContentView: View {
     var body: some View {
         VStack{
             Button("Restart"){
-                game.restart()
-                selection = 0
+                withAnimation(.restart){
+                    game.restart()
+                    selection = 0
+                }
             }
             view(for:game.masterCode)
             ScrollView{
@@ -72,6 +74,7 @@ struct ContentView: View {
 extension Animation{
     static let defualt = Animation.easeInOut(duration: 3)
     static let guess = Animation.defualt
+    static let restart = Animation.defualt
 }
 
 

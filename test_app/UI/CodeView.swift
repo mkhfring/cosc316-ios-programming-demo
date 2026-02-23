@@ -28,6 +28,7 @@ struct CodeView: View {
                         Selection
                             .shape
                             .foregroundStyle(code.isHidden ? Color.gray: Color.clear)
+                            .animation(nil, value: code.isHidden)
                     }
                     .onTapGesture {
                         if code.kind == .guess{
