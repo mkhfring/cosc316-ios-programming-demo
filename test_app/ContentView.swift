@@ -32,11 +32,14 @@ struct ContentView: View {
                     id: \.self
                 ){
                     index in view(for: game.attempts[index])
-                }
+                }.transition(.asymmetric(
+                    insertion: game.isGameOver ? .opacity : .move(edge: .top),
+                    removal: .move(edge: .trailing))
+                )
             }
             if !game.isGameOver{
                 PegChooser(choices: game.pegChoices, onChoose: choosePegSelection)
-                    .transition(.move(edge: .bottom))
+                    .transition(.offset(x: 0, y: 200))
             }
             
             
