@@ -33,14 +33,12 @@ struct MasterMindModel {
         var attempt = guess
         attempt.kind = .attempt(attempt.match(against: masterCode))
         attempts.append(attempt)
-        guess.pegs = Array(repeating: Peg.clear, count: 4)
+        guess.reset()
         if isGameOver {
             masterCode.kind = .master(isHidden: false)
         }
         
     }
-    
-    
     
     mutating func changePegchoice(at index: Int){
         let currentPeg = guess.pegs[index]

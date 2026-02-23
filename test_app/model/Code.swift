@@ -26,6 +26,10 @@ struct Code{
         }
     }
     
+    mutating func reset(){
+        pegs = Array(repeating: Peg.clear, count: 4)
+    }
+    
     mutating func randomize(from pegChoices:[Peg]){
         for index in pegs.indices{
             pegs[index] = pegChoices.randomElement() ?? Code.missing
