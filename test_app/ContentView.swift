@@ -36,6 +36,7 @@ struct ContentView: View {
             }
             if !game.isGameOver{
                 PegChooser(choices: game.pegChoices, onChoose: choosePegSelection)
+                    .transition(.move(edge: .bottom))
             }
             
             
