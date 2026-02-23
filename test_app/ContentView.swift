@@ -34,14 +34,19 @@ struct ContentView: View {
                     index in view(for: game.attempts[index])
                 }
             }
-            PegChooser(choices: game.pegChoices, onChoose: {peg in game.setGuessPeg(peg, at:selection)
-                selection = (selection + 1) % game.masterCode.pegs.count})
+            if !game.isGameOver{
+                PegChooser(choices: game.pegChoices, onChoose: choosePegSelection)
+            }
+            
             
         }.padding()
         
         
     }
-    
+    func choosePegSelection(to peg:Peg){
+        game.setGuessPeg(peg, at:selection)
+            selection = (selection + 1) % game.masterCode.pegs.count
+    }
     
     var guessButton: some View {
         Button("Guess"){
