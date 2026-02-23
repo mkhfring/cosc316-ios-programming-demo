@@ -34,6 +34,7 @@ struct Code{
         for index in pegs.indices{
             pegs[index] = pegChoices.randomElement() ?? Code.missing
         }
+        print(self)
     }
     
     var matches: [Match] {
