@@ -25,6 +25,7 @@ struct ContentView: View {
                 
                 if !game.isGameOver{
                     view(for: game.guess)
+                        .animation(nil, value: game.attempts.count)
                 }
                 //            pegs(colors:game.attempts[0].pegs)
                 ForEach(
