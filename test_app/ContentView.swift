@@ -11,19 +11,27 @@ struct ContentView: View {
     @State private var game = MasterMindModel(pegChoices: [.brown, .yellow, .orange, .black])
     
     @State private var selection:Int = 0
+    @State private var restarting = false
     
     var body: some View {
         VStack{
             Button("Restart"){
                 withAnimation(.restart){
-                    game.restart()
-                    selection = 0
+                    restarting = true
+                }completion: {
+                    withAnimation(.restart){
+                        game.restart()
+                        selection = 0
+                        restarting = false
+                    }
                 }
+    
+                
             }
             view(for:game.masterCode)
             ScrollView{
                 
-                if !game.isGameOver{
+                if !game.isGameOver || restarting {
                     view(for: game.guess)
                         .animation(nil, value: game.attempts.count)
                 }
