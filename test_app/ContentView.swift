@@ -16,7 +16,10 @@ struct ContentView: View {
         VStack{
             view(for:game.masterCode)
             ScrollView{
-                view(for: game.guess)
+                
+                if !game.isGameOver{
+                    view(for: game.guess)
+                }
                 //            pegs(colors:game.attempts[0].pegs)
                 ForEach(
                     game.attempts.indices.reversed(),
@@ -38,6 +41,7 @@ struct ContentView: View {
         Button("Guess"){
             withAnimation{
                 game.recordAttempt()
+                selection = 0
             }
         }
         .font(.system(size:80))

@@ -40,6 +40,8 @@ struct MasterMindModel {
         
     }
     
+    
+    
     mutating func changePegchoice(at index: Int){
         let currentPeg = guess.pegs[index]
         if let currentPegIndexInChoices = pegChoices.firstIndex(of: currentPeg){
